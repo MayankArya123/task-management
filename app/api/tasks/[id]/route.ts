@@ -10,8 +10,6 @@ export async function DELETE(
 ) {
   const { id } = await context.params;
 
-  // 🔹 Verify token
-
   const token = req.headers.get("authorization")?.replace("Bearer ", "");
   if (!token)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
