@@ -11,7 +11,7 @@ import { db } from "@/lib/firebase";
 export default function Dashboard() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [title, setTitle] = useState("");
-  const [user, setUser] = useState<null>(null);
+  const [user, setUser] = useState<null | any>(null);
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
   const [editingTask, setEditingTask] = useState<any | null>(null);
@@ -21,7 +21,7 @@ export default function Dashboard() {
 
   // Listen for auth state changes
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (u) => {
+    const unsub = onAuthStateChanged(auth, async (u:any) => {
       if (!u) {
         router.push("/login"); // redirect if not logged in
         return;
