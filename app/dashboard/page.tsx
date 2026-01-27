@@ -31,7 +31,7 @@ export default function Dashboard() {
       const snap = await getDoc(doc(db, "users", u.uid));
 
       if (snap.exists()) {
-        setUserName(snap.data().name);
+        setUserName(snap.data().email);
       }
 
       setUser(u);

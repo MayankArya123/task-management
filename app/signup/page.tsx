@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc } from "firebase/firestore";
 import { auth } from "@/lib/firebase";
+import { doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,8 +21,16 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
 
+      // 🔥 CREATE USER DOCUMENT MANUALLY
+      await setDoc(doc(db, "users", credentials.user.uid), {
+        email: credentials.user.email,
+      });
       // user is now logged in
       router.push("/dashboard");
     } catch (err: any) {
