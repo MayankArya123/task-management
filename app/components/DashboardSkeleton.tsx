@@ -3,7 +3,6 @@ export default function DashboardSkeleton() {
     <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
       {/* Tasks List */}
       <div className="w-full max-w-xl flex flex-col gap-3">
-        
         {[1, 2, 3].map((i) => (
           <div
             key={i}

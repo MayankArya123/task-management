@@ -27,11 +27,10 @@ export default function RegisterPage() {
         password,
       );
 
-      // 🔥 CREATE USER DOCUMENT MANUALLY
       await setDoc(doc(db, "users", credentials.user.uid), {
         email: credentials.user.email,
       });
-      // user is now logged in
+
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
