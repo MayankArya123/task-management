@@ -43,12 +43,15 @@ export async function PUT(
   const decoded = await adminAuth.verifyIdToken(token);
   const { title, status } = await req.json();
 
-  await adminDB.collection("tasks").doc(id).update({
-    title,
-    status,
-    userId: decoded.uid,
-    updatedAt: new Date(),
-  });
+  await adminDB
+    .collection("tasks")
+    .doc(id)
+    .update({
+      title,
+      completed: status === "completed" ? true : false,
+      userId: decoded.uid,
+      updatedAt: new Date(),
+    });
 
   return NextResponse.json({ message: "Task updated" });
 }

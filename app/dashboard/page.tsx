@@ -19,6 +19,8 @@ export default function Dashboard() {
   const [editingTask, setEditingTask] = useState<any | null>(null);
   const [editTitle, setEditTitle] = useState(""); // Edit task
   const [editStatus, setEditStatus] = useState("pending");
+  const [completedCount, setCompletedCount] = useState(0);
+  const [incompleteCount, setIncompleteCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -56,6 +58,12 @@ export default function Dashboard() {
 
       const data = await res.json();
       setTasks(data);
+      setCompletedCount(
+        data.filter((task: any) => task.completed === true)?.length,
+      );
+      setIncompleteCount(
+        data.filter((task: any) => task.completed === false)?.length,
+      );
     } catch (err: any) {
       console.error("Error loading tasks:", err.message);
     }
@@ -81,11 +89,12 @@ export default function Dashboard() {
   const editTask = (task: any) => {
     setEditingTask(task);
     setEditTitle(task?.title);
-    setEditStatus(task.status);
+    setEditStatus(task.completed ? "completed" : "pending");
   };
 
   const updateTask = async () => {
     if (!user) return toast.error("Please login again");
+    if (editTitle.length === 0) return toast.error("title can not be empty");
 
     const token = await user.getIdToken();
 
@@ -144,7 +153,7 @@ export default function Dashboard() {
   if (loading) return <DashboardSkeleton />;
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
+    <div className="p-6 max-w-2xl mx-auto">
       <div className="mb-6 flex items-center justify-end gap-4">
         <div className="text-sm text-gray-700">
           Hello, <span className="font-semibold">{userName}</span>
@@ -172,7 +181,7 @@ export default function Dashboard() {
               <label className="mb-1 block text-sm text-gray-600">Status</label>
 
               <select
-                value={editStatus}
+                value={editStatus === "pending" ? "pending" : "completed"}
                 onChange={(e) => setEditStatus(e.target.value)}
                 className="w-full rounded-md border bg-white px-3 py-2 text-sm h-[45px]"
               >
@@ -203,13 +212,25 @@ export default function Dashboard() {
         </div>
       )}
 
-      <h1 className="mb-4 text-2xl font-semibold">
-        Tasks <span className="text-sm text-gray-400">({tasks.length})</span>
+      <h1 className="mb-4 text-2xl font-semibold flex items-center gap-4">
+        <span>
+          Tasks <span className="text-sm text-gray-400">({tasks.length})</span>
+        </span>
+
+        <span className="text-base font-medium text-emerald-600">
+          Complete{" "}
+          <span className="text-sm text-gray-400">({completedCount})</span>
+        </span>
+
+        <span className="text-base font-medium text-yellow-500">
+          Incomplete{" "}
+          <span className="text-sm text-gray-400">({incompleteCount})</span>
+        </span>
       </h1>
 
       <div className="mb-6 flex gap-2">
         <input
-          className="h-[46px] flex-1 rounded-md border px-3 "
+          className="h-[48px] flex-1 rounded-md border px-3 "
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter new task"

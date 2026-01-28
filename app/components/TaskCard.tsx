@@ -3,17 +3,17 @@ const TaskCard = ({ task, editTask, deleteTask }: any) => {
     <div
       className={`flex items-center justify-between rounded-lg border px-4 py-3
         transition hover:bg-gray-50
-        ${task.status === "completed" ? "opacity-70" : ""}
+        ${task.completed === true ? "opacity-70" : ""}
       `}
     >
       {/* Left */}
       <div className="flex flex-col gap-1">
         <span
-          className={`text-sm md:text-base font-medium
+          className={`text-sm md:text-base
             ${
-              task.status === "completed"
-                ? "line-through text-gray-400"
-                : "text-gray-800"
+              task.completed === true
+                ? "line-through text-gray-500 font-normal"
+                : "text-gray-950 font-medium"
             }
           `}
         >
@@ -21,16 +21,15 @@ const TaskCard = ({ task, editTask, deleteTask }: any) => {
         </span>
 
         {/* Status text */}
+
         <span
-          className={`text-xs
-            ${
-              task.status === "completed"
-                ? "text-emerald-600"
-                : "text-yellow-600"
-            }
-          `}
+          className={`text-xs font-medium px-3 py-1 rounded-full w-[80px] ${
+            task.completed === true
+              ? "bg-emerald-300 text-white" // Completed: green bg, white text
+              : "bg-yellow-300 text-white" // Pending/Endon: yellow bg, white text
+          }`}
         >
-          {task.status === "completed" ? "Completed" : "Pending"}
+          {task.completed ? "Completed" : "Pending"}
         </span>
       </div>
 
