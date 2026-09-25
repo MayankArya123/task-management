@@ -46,21 +46,22 @@ export default function RegisterPage() {
 
         {error && <div className="text-red-500 mb-4">{error}</div>}
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="border p-3 rounded mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+<input
+  type="email"
+  placeholder="Email"
+  className="border p-3 rounded mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-italic"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-3 rounded mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+<input
+  type="password"
+  placeholder="Password"
+  className="border p-3 rounded mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-italic"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+
 
         <button
           onClick={handleSignup}
